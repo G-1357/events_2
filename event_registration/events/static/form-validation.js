@@ -1,57 +1,71 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("forma");
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const errorMessages = document.getElementById('errorMessages');
 
-    forma.addEventListener("submit", function(event) {
-        let isValid = true;
-        const titleInput = document.getElementById("eventTitle");
-        const dateInput = document.getElementById("eventDate");
-        const descriptionInput = document.getElementById("eventDescription");
-        const photoInput = document.getElementById("eventImage");
-        const photoDescriptionInput = document.getElementById("photoDescription");
+    errorMessages.innerHTML = '';
+    let isValid = true;
 
-        clearErrors();
+    if (username.value.trim() === '') {
+        isValid = false;
+        showError('Пожалуйста, введите логин.');
+    }
 
-        if (titleInput.value.trim() === "") {
-            isValid = false;
-            showError(titleInput, "Название мероприятия обязательно");
+    if (password.value.trim() === '') {
+        isValid = false;
+        showError('Пожалуйста, введите пароль.');
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+    }
+
+        if (title.value.trim() === '') {
+            errorMessages.push('Название мероприятия не может быть пустым.');
         }
 
-        if (dateInput.value.trim() === "") {
-            isValid = false;
-            showError(dateInput, "Дата мероприятия обязательна");
+        // Валидация даты мероприятия
+        if (date.value === '') {
+            errorMessages.push('Дата мероприятия не может быть пустой.');
         }
 
-        if (descriptionInput.value.trim() === "") {
-            isValid = false;
-            showError(descriptionInput, "Описание мероприятия обязательно");
+        // Валидация описания мероприятия
+        if (description.value.trim() === '') {
+            errorMessages.push('Описание мероприятия не может быть пустым.');
         }
 
-        if (photoInput.files.length === 0) {
-            isValid = false;
-            showError(photoInput, "Пожалуйста, выберите фото");
+        // Валидация выбора изображения
+        if (image.files.length === 0) {
+            errorMessages.push('Пожалуйста, выберите изображение.');
         }
 
-        if (photoDescriptionInput.value.length > 255) {
-            isValid = false;
-            showError(photoDescriptionInput, "Описание фото должно быть меньше 256 символов");
+        // Валидация описания фото
+        if (photoDescription.value.trim() === '') {
+            errorMessages.push('Описание фото не может быть пустым.');
         }
 
-        if (!isValid) {
-            event.preventDefault();
+        // Выводим ошибки, если они есть
+        if (errorMessages.length > 0) {
+            event.preventDefault(); // Отменяем отправку формы
+            showErrors(errorMessages);
+        }
+
+        function showErrors(messages) {
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger'; // Добавляем стиль Bootstrap для ошибок
+
+            messages.forEach(function (message) {
+                const div = document.createElement('div');
+                div.textContent = message;
+                errorContainer.appendChild(div);
+            });
+
+            document.querySelector('.card-body').insertBefore(errorContainer, document.querySelector('form'));
+        }
+
+        function clearErrors() {
+            const errorContainers = document.querySelectorAll('.alert-danger');
+            errorContainers.forEach(container => container.remove());
         }
     });
-
-    function showError(input, message) {
-        const errorMessage = document.createElement("div");
-        errorMessage.className = "error-message";
-        errorMessage.textContent = message;
-        input.parentNode.insertBefore(errorMessage, input.nextSibling);
-    }
-
-    function clearErrors() {
-        const errorMessages = document.querySelectorAll(".error-message");
-        errorMessages.forEach(function(message) {
-            message.remove();
-        });
-    }
 });

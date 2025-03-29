@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <title>Профиль организатора</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Профиль организатора</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3>{{ organizer_name }}</h3>
+                <p>Email: {{ organizer_email }}</p>
+            </div>
+        </div>
+
+        <h4>Список мероприятий:</h4>
+        <div id="eventList">
+            <!-- добавление мероприятий -->
+        </div>
+
+        <a href="{% url 'forma' %}" class="btn btn-primary btn-lg mt-3">Добавить мероприятие</a>
+    </div>
+</body>
+</html>
