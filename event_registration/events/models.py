@@ -1,10 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Event(models.Model):
-    name = models.CharField(max_length=200)
-    date = models.DateField()
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    photo = models.ImageField(upload_to='event_photos/')
+    date = models.DateField()
+    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+    attendee_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.title
+

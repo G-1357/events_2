@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="style.css" rel="stylesheet"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <title>Профиль организатора</title>
+    <style>
+        .small-btn {
+            padding: 0.2rem 0.5rem; /* Уменьшаем внутренние отступы */
+            font-size: 0.8rem; /* Уменьшаем размер шрифта */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -18,10 +25,19 @@
         </div>
 
         <h4>Список мероприятий:</h4>
-        <div id="eventList">
-            <!-- добавление мероприятий -->
-        </div>
-
+        <ul>
+            {% for event in events %}
+                <li>
+                    <a href="{% url 'event_detail' event.id %}">{{ event.title }}</a> - {{ event.date }}
+                    {% if user == event.organizer %}  <!-- Проверяем, является ли пользователь организатором -->
+                        <a href="{% url 'edit_event' event.id %}" class="btn btn-warning btn-sm small-btn">Редактировать</a>
+                        <a href="{% url 'delete_event' event.id %}" class="btn btn-danger btn-sm small-btn">Удалить</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <p>У вас пока нет мероприятий.</p>
+            {% endfor %}
+        </ul>
         <a href="{% url 'forma' %}" class="btn btn-primary btn-lg mt-3">Добавить мероприятие</a>
     </div>
 </body>

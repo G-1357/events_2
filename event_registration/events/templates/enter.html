@@ -21,35 +21,33 @@
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Пароль" name="password" id="password">
                     </div>
-                    <a href="{% url 'profile' %}" class="btn btn-primary btn-lg mt-3">Войти</a>
-
+                    <button type="submit" class="btn btn-primary btn-lg mt-3">Войти</button>
                 </form>
                 <div id="errorMessages" class="mt-3">
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- <script>
+    <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessages = document.getElementById('errorMessages');
             errorMessages.innerHTML = '';
 
             if (username.trim() === '' || password.trim() === '') {
+                event.preventDefault();
                 errorMessages.innerHTML = '<div class="alert alert-danger">Пожалуйста, заполните все поля.</div>';
-            } else {
-                window.location.href = 'profile/';
             }
         });
     </script>
 </body>
 </html>
+
